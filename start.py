@@ -9,8 +9,8 @@
 import json
 import octobot_prediction_market.cli
 
-# Import your custom OmnibookExchange class from your exchange data folder
-from octobot_prediction_market.exhange_data.exchange import OmnibookExchange
+# Import your custom OmnibookExchange class from your exchange_data folder
+from octobot_prediction_market.exchange_data.exchange import OmnibookExchange
 
 
 def main():
