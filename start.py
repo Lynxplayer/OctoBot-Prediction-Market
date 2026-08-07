@@ -1,38 +1,44 @@
 #  This file is part of OctoBot Prediction Market (https://github.com/Drakkar-Software/OctoBot-Prediction-Market)
 #  Copyright (c) Drakkar-Software, All rights reserved.
-#
-#  OctoBot is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU General Public License
-#  as published by the Free Software Foundation; either
-#  version 3.0 of the License, or (at your option) any later version.
 
+import os
 import json
 import octobot_prediction_market.cli
 
-# Import your custom OmnibookExchange class from your exchange_data folder
+# Import your custom OmnibookExchange class
 from octobot_prediction_market.exchange_data.exchange import OmnibookExchange
 
 
 def main():
-    # 1. Load API credentials from your config file
-    with open("config/default_config.json", "r") as f:
-        config = json.load(f)
+    # 1. Set default fallback keys
+    api_key = "YOUR_OMNIBOOK_API_KEY"
+    api_secret = "YOUR_OMNIBOOK_API_SECRET"
 
-    omnibook_cfg = config.get("exchanges", {}).get("omnibook", {})
-    api_key = omnibook_cfg.get("api-key")
-    api_secret = omnibook_cfg.get("api-secret")
+    # 2. Read from config/lynx.json
+    config_path = "config/lynx.json"
+    if os.path.exists(config_path):
+        with open(config_path, "r") as f:
+            config = json.load(f)
+            omnibook_cfg = config.get("exchanges", {}).get("omnibook", {})
+            api_key = omnibook_cfg.get("api-key", api_key)
+            api_secret = omnibook_cfg.get("api-secret", api_secret)
+    else:
+        print(f"⚠️ Warning: '{config_path}' was not found. Using default placeholder keys.")
 
-    # 2. Instantiate your custom exchange client
+    # 3. Instantiate your custom exchange client
     exchange = OmnibookExchange(api_key=api_key, api_secret=api_secret)
 
-    # 3. Test the connection
+    # 4. Test the connection
     try:
-        balance = exchange.get_account_balance()
-        print(f"Successfully connected to Omnibook! Current Balance: {balance}")
+        if api_key == "YOUR_OMNIBOOK_API_KEY":
+            print("⚠️ Warning: API keys are not set in lynx.json. The bot will start but cannot connect to Omnibook yet.")
+        else:
+            balance = exchange.get_account_balance()
+            print(f"Successfully connected to Omnibook! Current Balance: {balance}")
     except Exception as e:
         print(f"Error connecting to Omnibook API: {e}")
 
-    # 4. Start the main OctoBot CLI loop
+    # 5. Start the main OctoBot CLI loop
     octobot_prediction_market.cli.main()
 
 
