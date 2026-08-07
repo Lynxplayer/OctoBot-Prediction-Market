@@ -1,0 +1,29 @@
+{
+  "backtesting": {
+    "files": []
+  },
+  "exchanges": {
+    "omnibook": {
+      "api-key": "IyZe1PQ74l2hc8QMC4Be2fRL6kSSMZl1",
+      "api-secret": "be9d94ac3ec14b63a7ceac7dce9c5dc4933be3adf43fdce82028c28c0433c8aa"
+    }
+  },
+  "services": {
+    "web": {
+      "auto-open-in-web-browser": true
+    }
+  },
+  "notification": {
+    "global-info": true,
+    "price-alerts": true,
+    "trades": true,
+    "trading-script-alerts": true,
+    "other": true,
+    "notification-type": [
+      "web"
+    ]
+  },
+  "profile": "profile_copy_trading",
+  "accepted_terms": true,
+  "distribution": "prediction_market"
+}
